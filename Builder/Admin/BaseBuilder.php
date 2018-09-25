@@ -15,11 +15,11 @@ use Admingenerator\GeneratorBundle\Generator\Action;
  */
 class BaseBuilder extends GenericBaseBuilder
 {
-    protected $columns;
+    protected $columns = [];
 
-    protected $actions;
+    protected $actions = [];
 
-    protected $objectActions = array();
+    protected $objectActions = [];
 
     protected $columnClass = 'Column';
 
@@ -142,14 +142,14 @@ class BaseBuilder extends GenericBaseBuilder
      */
     protected function getDisplayAsColumns()
     {
-        $display = $this->getVariable('display');
+        $display = $this->getVariable('display') ?? [];
 
         // tabs
-        if (null == $display || 0 == sizeof($display)) {
-            $tabs = $this->getVariable('tabs');
+        if (0 == count($display)) {
+            $tabs = $this->getVariable('tabs') ?? [];
 
-            if (null != $tabs || 0 < sizeof($tabs)) {
-                $display = array();
+            if (0 < count($tabs)) {
+                $display = [];
 
                 foreach ($tabs as $tab) {
                     $display = array_merge($display, $tab);
@@ -166,7 +166,7 @@ class BaseBuilder extends GenericBaseBuilder
         }
 
         //there is fieldsets
-        $return = array();
+        $return = [];
 
         foreach ($display as $fieldset => $rows_or_fields) {
             foreach ($rows_or_fields as $fields) {
@@ -196,14 +196,14 @@ class BaseBuilder extends GenericBaseBuilder
      */
     public function getFieldsets()
     {
-        $display = $this->getVariable('display');
+        $display = $this->getVariable('display') ?? [];
 
         // tabs
-        if (null == $display || 0 == sizeof($display)) {
-            $tabs = $this->getVariable('tabs');
+        if (0 == count($display)) {
+            $tabs = $this->getVariable('tabs') ?? [];
 
-            if (null != $tabs || 0 < sizeof($tabs)) {
-                $display = array();
+            if (0 < count($tabs)) {
+                $display = [];
 
                 foreach ($tabs as $tab) {
                     $display = array_merge($display, $tab);
@@ -211,7 +211,7 @@ class BaseBuilder extends GenericBaseBuilder
             }
         }
 
-        if (null == $display || 0 == sizeof($display)) {
+        if (0 == count($display)) {
             $display = $this->getAllFields();
         }
 

@@ -8,7 +8,7 @@ namespace Admingenerator\GeneratorBundle\Builder\Admin;
  */
 class NestedListBuilder extends ListBuilder
 {
-    protected $treeConfiguration = array();
+    protected $treeConfiguration = [];
 
     /**
      * (non-PHPdoc)

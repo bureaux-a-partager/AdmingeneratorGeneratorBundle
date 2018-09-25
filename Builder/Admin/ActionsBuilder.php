@@ -13,7 +13,7 @@ class ActionsBuilder extends BaseBuilder
     /**
      * @var array
      */
-    protected $batch_actions  = array();
+    protected $batch_actions  = [];
 
     /**
      * (non-PHPdoc)
@@ -95,7 +95,7 @@ class ActionsBuilder extends BaseBuilder
             if(!$action) {
                 $action = new Action($actionName);
             }
-            
+
             if ($globalCredentials = $this->getGenerator()->getFromYaml('params.credentials')) {
                 // If generator is globally protected by credentials
                 // batch actions are also protected

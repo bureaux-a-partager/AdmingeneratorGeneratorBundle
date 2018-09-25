@@ -13,9 +13,9 @@ use Admingenerator\GeneratorBundle\Generator\Action;
  */
 class ListBuilder extends BaseBuilder
 {
-    protected $batch_actions;
+    protected $batch_actions = [];
 
-    protected $filter_columns;
+    protected $filter_columns = [];
 
     /**
      * (non-PHPdoc)
@@ -84,7 +84,7 @@ class ListBuilder extends BaseBuilder
                     )
                 )
             );
-            
+
 
             $column->setFormOptions(
                 $this->getFieldOption(
@@ -153,7 +153,7 @@ class ListBuilder extends BaseBuilder
 
         foreach ($batchActions as $actionName => $actionParams) {
             $action = $this->findBatchAction($actionName);
-            
+
             if (!$action) {
                 $action = new Action($actionName);
             }
