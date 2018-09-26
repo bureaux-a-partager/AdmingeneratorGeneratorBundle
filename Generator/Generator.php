@@ -4,13 +4,16 @@ namespace Admingenerator\GeneratorBundle\Generator;
 
 use Symfony\Component\Finder\Finder;
 
-use Symfony\Component\DependencyInjection\ContainerAware;
+use Symfony\Component\DependencyInjection\ContainerAwareInterface;
+use Symfony\Component\DependencyInjection\ContainerAwareTrait;
 use Admingenerator\GeneratorBundle\Validator\ValidatorInterface;
 
 use Admingenerator\GeneratorBundle\Builder\Generator as AdminGenerator;
 
-abstract class Generator extends ContainerAware implements GeneratorInterface
+abstract class Generator implements GeneratorInterface, ContainerAwareInterface
 {
+    use ContainerAwareTrait;
+
     protected $root_dir;
 
     protected $cache_dir;
@@ -49,13 +52,13 @@ abstract class Generator extends ContainerAware implements GeneratorInterface
         return $this->base_generator_name;
     }
 
-   /**
-    * (non-PHPdoc)
-    * @see Generator/Admingenerator\GeneratorBundle\Generator.GeneratorInterface::getCachePath()
-    */
+    /**
+     * (non-PHPdoc)
+     * @see Generator/Admingenerator\GeneratorBundle\Generator.GeneratorInterface::getCachePath()
+     */
     public function getCachePath($namespace, $bundle_name)
     {
-       return $this->cache_dir.'/Admingenerated/'.str_replace('\\', DIRECTORY_SEPARATOR, $namespace).$bundle_name;
+        return $this->cache_dir.'/Admingenerated/'.str_replace('\\', DIRECTORY_SEPARATOR, $namespace).$bundle_name;
     }
 
     /**
@@ -96,9 +99,9 @@ abstract class Generator extends ContainerAware implements GeneratorInterface
 
         $finder = new Finder();
         $files = $finder->files()
-                        ->date('< '.date('Y-m-d H:i:s',$fileInfo->getMTime()))
-                        ->in($cacheDir)
-                        ->count();
+            ->date('< '.date('Y-m-d H:i:s',$fileInfo->getMTime()))
+            ->in($cacheDir)
+            ->count();
 
         if ($files > 0) {
             return true;

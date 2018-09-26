@@ -3,17 +3,20 @@
 namespace Admingenerator\GeneratorBundle\Menu;
 
 use Knp\Menu\ItemInterface;
-use Symfony\Component\DependencyInjection\ContainerAware;
+use Symfony\Component\DependencyInjection\ContainerAwareInterface;
+use Symfony\Component\DependencyInjection\ContainerAwareTrait;
 
-class AdmingeneratorMenuBuilder extends ContainerAware
+class AdmingeneratorMenuBuilder implements ContainerAwareInterface
 {
+    use ContainerAwareTrait;
+
     protected $dividers = array();
-    
+
     protected $translation_domain = 'Admin';
 
     /**
      * Creates header element and adds it to menu
-     * 
+     *
      * @param \Knp\Menu\ItemInterface $menu
      * @param string $label Header label
      * @return ItemInterface Header element
@@ -29,7 +32,7 @@ class AdmingeneratorMenuBuilder extends ContainerAware
 
     /**
      * Creates link to uri element and adds it to menu
-     * 
+     *
      * @param \Knp\Menu\ItemInterface $menu
      * @param string $label Link label
      * @param string $route Link uri
@@ -49,7 +52,7 @@ class AdmingeneratorMenuBuilder extends ContainerAware
 
     /**
      * Creates link to route element and adds it to menu
-     * 
+     *
      * @param \Knp\Menu\ItemInterface $menu
      * @param string $label Link label
      * @param string $route Link route
@@ -70,7 +73,7 @@ class AdmingeneratorMenuBuilder extends ContainerAware
 
     /**
      * Creates dropdown menu element and adds it to menu
-     * 
+     *
      * @param \Knp\Menu\ItemInterface $menu
      * @param string $label Dropdown label
      * @param bool $caret Wheather or not append caret
@@ -89,7 +92,7 @@ class AdmingeneratorMenuBuilder extends ContainerAware
 
     /**
      * Creates divider element and adds it to menu
-     * 
+     *
      * @param \Knp\Menu\ItemInterface $menu
      * @return ItemInterface Divider element
      */

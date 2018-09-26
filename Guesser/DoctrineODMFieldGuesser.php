@@ -5,10 +5,13 @@ namespace Admingenerator\GeneratorBundle\Guesser;
 use Admingenerator\GeneratorBundle\Exception\NotImplementedException;
 
 use Doctrine\ODM\MongoDB\DocumentManager;
-use Symfony\Component\DependencyInjection\ContainerAware;
+use Symfony\Component\DependencyInjection\ContainerAwareInterface;
+use Symfony\Component\DependencyInjection\ContainerAwareTrait;
 
-class DoctrineODMFieldGuesser extends ContainerAware
+class DoctrineODMFieldGuesser implements ContainerAwareInterface
 {
+    use ContainerAwareTrait;
+
     private $documentManager;
 
     private $metadata;

@@ -5,10 +5,13 @@ namespace Admingenerator\GeneratorBundle\Guesser;
 use Admingenerator\GeneratorBundle\Exception\NotImplementedException;
 
 use Doctrine\Common\Util\Inflector;
-use Symfony\Component\DependencyInjection\ContainerAware;
+use Symfony\Component\DependencyInjection\ContainerAwareInterface;
+use Symfony\Component\DependencyInjection\ContainerAwareTrait;
 
-class PropelORMFieldGuesser extends ContainerAware
+class PropelORMFieldGuesser implements ContainerAwareInterface
 {
+    use ContainerAwareTrait;
+
     private $cache = array();
 
     private static $current_class;
@@ -36,13 +39,13 @@ class PropelORMFieldGuesser extends ContainerAware
     public function getDbType($class, $fieldName)
     {
         $relation = $this->getRelation($fieldName, $class);
-        
+
         if ($relation) {
             return \RelationMap::MANY_TO_ONE === $relation->getType() ? 'model' : 'collection';
         }
 
         $column = $this->getColumn($class, $fieldName);
-        
+
         return $column ? $column->getType() : 'virtual';
     }
 
@@ -79,7 +82,7 @@ class PropelORMFieldGuesser extends ContainerAware
             \PropelColumnTypes::CLOB,
             \PropelColumnTypes::CLOB_EMU,
         );
-        
+
         $numericTypes = array(
             \PropelColumnTypes::FLOAT,
             \PropelColumnTypes::REAL,
@@ -91,15 +94,15 @@ class PropelORMFieldGuesser extends ContainerAware
             \PropelColumnTypes::BIGINT,
             \PropelColumnTypes::NUMERIC,
         );
-        
+
         if (in_array($dbType, $alphabeticTypes)) {
             return 'alphabetic';
         }
-        
+
         if (in_array($dbType, $numericTypes)) {
             return 'numeric';
         }
-        
+
         return 'default';
     }
 
@@ -107,17 +110,17 @@ class PropelORMFieldGuesser extends ContainerAware
     {
         $config = $this->container->getParameter('admingenerator.propel_form_types');
         $formTypes = array();
-        
+
         foreach ($config as $key => $value) {
             // if config is all uppercase use it to retrieve \PropelColumnTypes
             // constant, otherwise use it literally
             if ($key === strtoupper($key)) {
                 $key = constant('\PropelColumnTypes::'.$key);
             }
-            
+
             $formTypes[$key] = $value;
         }
-        
+
         if (array_key_exists($dbType, $formTypes)) {
             return $formTypes[$dbType];
         } elseif ('virtual' === $dbType) {
@@ -137,17 +140,17 @@ class PropelORMFieldGuesser extends ContainerAware
     {
         $config = $this->container->getParameter('admingenerator.propel_filter_types');
         $filterTypes = array();
-        
+
         foreach ($config as $key => $value) {
             // if config is all uppercase use it to retrieve \PropelColumnTypes
             // constant, otherwise use it literally
             if ($key === strtoupper($key)) {
                 $key = constant('\PropelColumnTypes::'.$key);
             }
-            
+
             $filterTypes[$key] = $value;
         }
-        
+
         if (array_key_exists($dbType, $filterTypes)) {
             return $filterTypes[$dbType];
         }

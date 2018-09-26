@@ -6,10 +6,13 @@ use Admingenerator\GeneratorBundle\Exception\NotImplementedException;
 
 use Doctrine\Bundle\DoctrineBundle\Registry;
 use Doctrine\ORM\Mapping\ClassMetadataInfo;
-use Symfony\Component\DependencyInjection\ContainerAware;
+use Symfony\Component\DependencyInjection\ContainerAwareInterface;
+use Symfony\Component\DependencyInjection\ContainerAwareTrait;
 
-class DoctrineORMFieldGuesser extends ContainerAware
+class DoctrineORMFieldGuesser implements ContainerAwareInterface
 {
+    use ContainerAwareTrait;
+
     private $doctrine;
 
     private $metadata;
