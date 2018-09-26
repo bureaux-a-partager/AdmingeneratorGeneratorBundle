@@ -35,9 +35,8 @@ class RoutingLoader extends FileLoader
         'update' => array(
                     'pattern'      => '/{pk}/update',
                     'defaults'     => array(),
-                    'requirements' => array(
-                        '_method' => 'POST'
-                    ),
+                    'requirements' => array(),
+                    'methods'      => ['POST'],
                     'controller'   => 'edit',
                 ),
         'show' => array(
@@ -54,9 +53,8 @@ class RoutingLoader extends FileLoader
         'batch' => array(
                     'pattern'      => '/batch',
                     'defaults'     => array(),
-                    'requirements' => array(
-                        '_method' => 'POST'
-                    ),
+                    'requirements' => array(),
+                    'methods'      => ['POST'],
                     'controller'   => 'actions',
                 ),
         'new' => array(
@@ -68,9 +66,8 @@ class RoutingLoader extends FileLoader
         'create' => array(
                     'pattern'      => '/create',
                     'defaults'     => array(),
-                    'requirements' => array(
-                        '_method' => 'POST'
-                    ),
+                    'requirements' => array(),
+                    'methods'      => ['POST'],
                     'controller'   => 'new',
                 ),
         'filters' => array(
