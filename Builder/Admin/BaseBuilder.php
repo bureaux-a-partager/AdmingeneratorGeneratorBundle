@@ -108,22 +108,16 @@ class BaseBuilder extends GenericBaseBuilder
 
     protected function getFieldOption(Column $column, $optionName, $default = null)
     {
-        $options = $this->getVariable(
-            sprintf('fields[%s]', $column->getName()),
-            array(),
-            true
-        );
+        $fields = $this->getVariable('fields', []);
+        $options = isset($fields[$column->getName()]) ? $fields[$column->getName()] : [];
 
         return isset($options[$optionName]) ? $options[$optionName] : $default;
     }
 
     protected function setUserColumnConfiguration(Column $column)
     {
-        $options = $this->getVariable(
-            sprintf('fields[%s]', $column->getName()),
-            array(),
-            true
-        );
+        $fields = $this->getVariable('fields', []);
+        $options = isset($fields[$column->getName()]) ? $fields[$column->getName()] : [];
 
         foreach ($options as $option => $value) {
             $column->setProperty($option, $value);
@@ -256,11 +250,8 @@ class BaseBuilder extends GenericBaseBuilder
 
     protected function setUserActionConfiguration(Action $action)
     {
-        $builderOptions = $this->getVariable(
-            sprintf('actions[%s]', $action->getName()),
-            array(),
-            true
-        );
+        $actions = $this->getVariable('actions', []);
+        $builderOptions = isset($actions[$action->getName()]) ? $actions[$action->getName()] : [];
 
         $globalOptions = $this->getGenerator()->getFromYaml(
             'params.actions.'.$action->getName(),
@@ -322,10 +313,8 @@ class BaseBuilder extends GenericBaseBuilder
 
     protected function setUserObjectActionConfiguration(Action $action)
     {
-        $builderOptions = $this->getVariable(
-                sprintf('object_actions[%s]', $action->getName()),
-                array(), true
-        );
+        $actions = $this->getVariable('actions', []);
+        $builderOptions = isset($actions[$action->getName()]) ? $actions[$action->getName()] : [];
 
         $globalOptions = $this->getGenerator()->getFromYaml(
                 'params.object_actions.'.$action->getName(), array()
