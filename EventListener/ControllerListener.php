@@ -2,24 +2,25 @@
 
 namespace Admingenerator\GeneratorBundle\EventListener;
 
-use Symfony\Component\DependencyInjection\ContainerInterface;
-
-use Symfony\Component\Yaml\Yaml;
-
-use Symfony\Component\HttpKernel\HttpKernelInterface;
-
-use Symfony\Component\HttpKernel\Event\GetResponseEvent;
-
 use Admingenerator\GeneratorBundle\Exception\NotAdminGeneratedException;
+
+use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\Yaml\Yaml;
+use Symfony\Component\Yaml\Parser;
+use Symfony\Component\HttpKernel\HttpKernelInterface;
+use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 use Symfony\Component\Finder\Finder;
 
 class ControllerListener
 {
     protected $container;
 
+    protected $parser;
+
     public function __construct(ContainerInterface $container)
     {
         $this->container = $container;
+        $this->parser = new Parser();
     }
 
     public function onKernelRequest(GetResponseEvent $event)
@@ -57,7 +58,7 @@ class ControllerListener
 
     protected function getGenerator($generatorYaml)
     {
-        $yaml = Yaml::parse($generatorYaml);
+        $yaml = $this->parser->parse(file_get_contents($generatorYaml));
 
         return $this->container->get($yaml['generator']);
     }
@@ -71,7 +72,7 @@ class ControllerListener
             if (3 != count(explode('\\', $matches[2]))) {
                 return '';
             }
-            
+
             list($firstSlash, $generatorName) = explode('\\', $matches[2], 3);
 
             return $generatorName;

@@ -9,6 +9,7 @@ use Symfony\Component\Routing\RouteCollection;
 use Symfony\Component\Routing\Route;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Yaml\Yaml;
+use Symfony\Component\Yaml\Parser;
 
 class RoutingLoader extends FileLoader
 {
@@ -96,7 +97,8 @@ class RoutingLoader extends FileLoader
         $collection = new RouteCollection();
 
         $resource = str_replace('\\', '/', $resource);
-        $this->yaml = Yaml::parse($this->getGeneratorFilePath($resource));
+        $parser = new Parser();
+        $this->yaml = $parser->parse(file_get_contents($this->getGeneratorFilePath($resource)));
 
         $namespace = $this->getNamespaceFromResource($resource);
         $fullBundleName = $this->getFullBundleNameFromResource($resource);

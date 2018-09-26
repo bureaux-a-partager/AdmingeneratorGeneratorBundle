@@ -3,13 +3,15 @@
 namespace Admingenerator\GeneratorBundle\Validator;
 
 use Symfony\Component\Yaml\Yaml;
+use Symfony\Component\Yaml\Parser;
 use Admingenerator\GeneratorBundle\Generator\Generator;
 
 class BaseValidator
 {
     protected function getFromYaml(Generator $generator, $yaml_path, $default = null)
     {
-        $search_in = Yaml::parse($generator->getGeneratorYml());
+        $parser = new Parser();
+        $search_in = $parser->parse(file_get_contents($generator->getGeneratorYml()));
 
         $yaml_path = explode('.',$yaml_path);
         foreach ($yaml_path as $key) {

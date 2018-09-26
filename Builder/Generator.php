@@ -8,6 +8,7 @@ namespace Admingenerator\GeneratorBundle\Builder;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 use Symfony\Component\Yaml\Yaml;
+use Symfony\Component\Yaml\Parser;
 use TwigGenerator\Builder\Generator as TwigGeneratorGenerator;
 use TwigGenerator\Builder\BuilderInterface;
 
@@ -30,6 +31,8 @@ class Generator extends TwigGeneratorGenerator
 
     protected $container;
 
+    protected $parser;
+
     /**
      * Init a new generator and automatically define the base of tempDir
      *
@@ -39,7 +42,8 @@ class Generator extends TwigGeneratorGenerator
     public function __construct($cacheDir, $yaml)
     {
         parent::__construct($cacheDir);
-        $this->setYamlConfig(Yaml::parse($yaml));
+        $this->parser = new Parser();
+        $this->setYamlConfig($this->parser->parse(file_get_contents($yaml)));
     }
 
     public function getBaseAdminTemplate()
@@ -207,7 +211,7 @@ class Generator extends TwigGeneratorGenerator
     protected function setYamlConfig(array $yaml)
     {
         $this->yaml = array_replace_recursive(
-            Yaml::parse(__DIR__.'/../Resources/config/default.yml'),
+            $this->parser->parse(file_get_contents(__DIR__.'/../Resources/config/default.yml')),
             $yaml
         );
     }

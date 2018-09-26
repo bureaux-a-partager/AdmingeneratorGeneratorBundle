@@ -3,6 +3,7 @@
 namespace Admingenerator\GeneratorBundle\CacheWarmer;
 
 use Symfony\Component\Yaml\Yaml;
+use Symfony\Component\Yaml\Parser;
 
 use Symfony\Component\HttpKernel\CacheWarmer\CacheWarmerInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -24,6 +25,8 @@ class GeneratorCacheWarmer implements CacheWarmerInterface
 
     protected $yaml_datas = array();
 
+    protected $parser;
+
     /**
      * Constructor.
      *
@@ -33,6 +36,7 @@ class GeneratorCacheWarmer implements CacheWarmerInterface
     {
         $this->container = $container;
         $this->finder = $finder;
+        $this->parser = new Parser();
     }
 
     /**
@@ -81,7 +85,7 @@ class GeneratorCacheWarmer implements CacheWarmerInterface
 
     protected function parseYaml($file)
     {
-        $this->yaml_datas = Yaml::parse($file);
+        $this->yaml_datas = $this->parser->parse(file_get_contents($file));
     }
 
 }
