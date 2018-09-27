@@ -13,7 +13,7 @@ namespace Admingenerated\{{ namespace_prefix }}{{ bundle_name }}\{{ builder.gene
 
 {{- block('security_use') }}
 
-{{- block('csrf_protection_use') }}
+{{- block('csrf_protection_use') is defined ? block('csrf_protection_use') }}
 
 use {{ builder.generator.baseController }} as BaseController;
 use Symfony\Component\HttpFoundation\Response;

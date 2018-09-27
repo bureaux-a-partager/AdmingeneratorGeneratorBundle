@@ -1,4 +1,4 @@
-{% block csrf_protection_use %}
+{% block('csrf_protection_use') is defined ? block('csrf_protection_use') %}
 use Symfony\Component\Security\Core\Exception\InvalidCsrfTokenException;
 {% endblock %}
 
