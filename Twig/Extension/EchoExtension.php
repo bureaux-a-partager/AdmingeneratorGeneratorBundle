@@ -121,6 +121,7 @@ class EchoExtension extends \Twig_Extension
             }
         }
 
+        /*
         if (preg_match('#^(.+)Type$#i', $formType) || 'form_widget'== $formType) { // For type wich are not strings
             preg_match("/\'(.*)Type\'/", $options, $matches);
 
@@ -128,6 +129,7 @@ class EchoExtension extends \Twig_Extension
                 return 'new '.stripslashes($matches[1]).'Type()';
             }
         }
+        */
 
         return $options;
     }

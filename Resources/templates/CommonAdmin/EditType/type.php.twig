@@ -22,7 +22,7 @@ class {{ builder.YamlKey|ucfirst }}Type extends AbstractType
             'label': column.label,
             'translation_domain': i18n_catalog|default('Admin')
         })|as_php|convert_as_form(column.formType) }});
-        $builder->add('{{ column.name }}', {{ column.formType|as_php|convert_as_form(column.formType) }}, $formOptions);
+        $builder->add('{{ column.name }}', '{{ column.formType }}', $formOptions);
 
     {% if column.credentials %}
         }
@@ -36,7 +36,7 @@ class {{ builder.YamlKey|ucfirst }}Type extends AbstractType
         return $formOptions;
     }
 
-    public function getName()
+    public function getBlockPrefix()
     {
         return '{{ builder.YamlKey }}_{{ builder.ModelClass|lower }}';
     }

@@ -143,11 +143,10 @@ class EditType extends BaseEditType
             ));
     }
 
-  public function getName()
+  public function getBlockPrefix()
     {
         return 'yourfield';
     }
 
 }
 ```
-
